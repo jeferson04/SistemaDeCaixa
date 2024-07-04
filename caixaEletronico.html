@@ -1,0 +1,59 @@
+<meta charset="utf-8">
+<script>
+var qtd_Notas = {};
+var notas = [100, 50, 20, 10, 5, 2, 1];
+var valorSaque;
+var saldo = 850;
+var qtd_Notas_Disponivel = {100:30, 50:500, 20:500, 10:500, 5:100, 2:50, 1:100};
+var valorDisponivelEmCaixa = 0;
+
+        function entrada() {
+     valorSaque = Number(prompt('Digite o valor do saque: '));
+
+    for(let nota in qtd_Notas_Disponivel){
+     valorDisponivelEmCaixa += nota * qtd_Notas_Disponivel[nota];
+   }
+        if(valorSaque <= valorDisponivelEmCaixa) {
+        if(valorSaque <= saldo){
+         saldo -= valorSaque;
+             var valorRestante = valorSaque;
+             for(let nota of notas){
+
+                 qtd_Notas[nota] = Math.min(Math.floor(valorRestante/ nota), qtd_Notas_Disponivel[nota]);
+                if(qtd_Notas_Disponivel[nota] < qtd_Notas[nota]){
+                 qtd_Notas[nota] = 0;
+                 continue;
+
+                 }else{
+                
+                  valorRestante -= qtd_Notas[nota] * nota;
+                  qtd_Notas_Disponivel[nota] -= qtd_Notas[nota];
+                 }
+                 }
+                if(valorRestante === 0){
+                 alert('Saque realizado com sucesso.');
+                 console.log('Quantidade de Notas Necessárias:');
+                 for (let nota in qtd_Notas) {
+                 if(qtd_Notas[nota]!= 0){
+                 console.log(qtd_Notas[nota] + ' notas de ' + nota);
+                 }
+                 }
+                }
+
+             }else{
+             alert('Saldo insuficiente');
+     }
+
+    }else {
+     alert('Maquina sem notas suficientes');
+     }
+
+    console.log('Saldo Atual: ' + saldo);
+     console.log('Quantidade de notas ainda disponíveis no caixa:');
+     for (let nota in qtd_Notas_Disponivel) {
+     console.log(qtd_Notas_Disponivel[nota] + ' notas de ' + nota);
+    }
+
+}
+entrada();
+</script>
